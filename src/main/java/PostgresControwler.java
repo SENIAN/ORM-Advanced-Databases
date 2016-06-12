@@ -15,7 +15,7 @@ public class PostgresControwler {
     private static String username;
     private static String password;
     private static String url;
-    DbConnectorInsertData dbConnectorInsertData = new DbConnectorInsertData();
+    DbConnectorInsertAndSelectData dbConnectorInsertAndSelectData = new DbConnectorInsertAndSelectData();
 
     public Connection connection;
 

@@ -16,14 +16,14 @@ public class PerformanceManager {
     private static String url = "jdbc:postgresql://127.0.0.1:5432/Roostering";
     private static String username = "postgres";
     private static String password = "admin";
-    DbConnectorInsertData dbConnectorInsertData = new DbConnectorInsertData();
+    DbConnectorInsertAndSelectData dbConnectorInsertAndSelectData = new DbConnectorInsertAndSelectData();
 
     public void testSettings() throws ClassNotFoundException, SQLException {
         String leeftijd = "1991-01-17";
         Date DateValueOfLeeftijd = Date.valueOf(leeftijd);
         Student student = new Student(3, "m", "el", "m",
                 DateValueOfLeeftijd, "M", "van m 41", "3119TR", "m", "0610287399");
-        dbConnectorInsertData.voegStudentToe(student);
+        dbConnectorInsertAndSelectData.voegStudentToe(student);
     }
 
     public static ArrayList arrayListStudent = new ArrayList();
@@ -36,7 +36,7 @@ public class PerformanceManager {
             long beginTijd = System.currentTimeMillis();
             for (int i = 0; i < 600; i++) {
                 try {
-                    postgresControwler.connectionToPostGres();
+          /*          postgresControwler.connectionToPostGres();
                     Student student = junkGenerator.returnNewStudent();
                     arrayListStudent.add(junkGenerator.returnNewStudent());
                     Klas klas = junkGenerator.returnNewKlas();
@@ -46,7 +46,7 @@ public class PerformanceManager {
                         arrayListKlas.add(klas);
                         Random R = new Random();
                         Klas addStudentToKlass = (Klas) arrayListKlas.get(R.nextInt(arrayListKlas.size()));
-                        DbConnectorInsertData.koppelStudentToKlass(addStudentToKlass, student);
+                        DbConnectorInsertAndSelectData.koppelStudentToKlass(addStudentToKlass, student);
                         System.out.println("Student successvol gekoppeld aan een klas");
                     } else {
                         System.out.println("Nog geen Student aan klas gekoppeld");
@@ -56,11 +56,11 @@ public class PerformanceManager {
 
                     if (kansSpelSpelen == 5) {
                         Module module = junkGenerator.returnNewModule();
-                        DbConnectorInsertData.voegModuleToe(module);
+                        DbConnectorInsertAndSelectData.voegModuleToe(module);
                         if (kansspelSpelenOpModule == 5) {
                             for (int k = 0; k < arrayListKlas.size(); k++) {
                                 Klas klasNew = (Klas) arrayListKlas.get(k);
-                                DbConnectorInsertData.koppelModuleToKlass(klasNew, module);
+                                DbConnectorInsertAndSelectData.koppelModuleToKlass(klasNew, module);
                                 System.out.println("Module Successvol Gekoppeld aan een Klas");
                             }
                         } else {
@@ -69,9 +69,17 @@ public class PerformanceManager {
                     } else {
                         System.out.println("Niet gelukt om een Module te koppelen");
                     }
-                    postgresControwler.exit();
-                    Thread.currentThread().sleep(1000);
+          */
 
+
+                    
+                    DbConnectorInsertAndSelectData.selecteerAllStudenten();
+                    postgresControwler.exit();
+                    long eindTijd = System.currentTimeMillis();
+                    long duurInMS = eindTijd - beginTijd;
+                    long gemiddeldTijd1 = duurInMS / 600;
+                    System.out.println("gemiddeld tijd van thread:" + Thread.currentThread().getName() + " " + gemiddeldTijd1);
+                    Thread.currentThread().sleep(1000);
                 } catch (SQLException e) {
                     e.printStackTrace();
 
@@ -79,28 +87,23 @@ public class PerformanceManager {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 } catch (InterruptedException e) {
-                 e.printStackTrace();
+                    e.printStackTrace();
                 }
-
             }
-            long eindTijd = System.currentTimeMillis();
-
-            long duurInMS = eindTijd - beginTijd;
-            long gemiddeldTijd1 = duurInMS / 600;
-            System.out.println("gemiddeld tijd van thread 1:" + gemiddeldTijd1);
 
         };
-            Thread thread1 = new Thread(runnable::run);
-            Thread thread2 = new Thread(runnable::run);
-            Thread thread3 = new Thread(runnable::run);
-            Thread thread4 = new Thread(runnable::run);
-            Thread thread5 = new Thread(runnable::run);
+        Thread thread1 = new Thread(runnable::run);
+        Thread thread2 = new Thread(runnable::run);
+        Thread thread3 = new Thread(runnable::run);
+        Thread thread4 = new Thread(runnable::run);
+        Thread thread5 = new Thread(runnable::run);
 
-            thread1.start();
-            thread2.start();
-            thread3.start();
-            thread4.start();
-            thread5.start();
+        thread1.start();
+
+        thread2.start();
+        thread3.start();
+        thread4.start();
+        thread5.start();
 
     }
 }
