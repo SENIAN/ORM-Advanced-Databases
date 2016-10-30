@@ -22,7 +22,7 @@ public class PerformanceManager {
         String leeftijd = "1991-01-17";
         Date DateValueOfLeeftijd = Date.valueOf(leeftijd);
         Student student = new Student(3, "m", "el", "m",
-                DateValueOfLeeftijd, "M", "van m 41", "3119TR", "m", "0610287399");
+                DateValueOfLeeftijd, "M", "van m 41", "3119TR", "m", "4444444");
         dbConnectorInsertAndSelectData.voegStudentToe(student);
     }
 
